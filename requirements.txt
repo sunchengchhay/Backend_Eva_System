@@ -1,0 +1,11 @@
+flask==2.3.3
+flask-sqlalchemy
+flask-jwt-extended
+psycopg2-binary
+gunicorn
+flask-restx
+flask-admin
+flask-wtf
+flask-login
+pandas
+openpyxl

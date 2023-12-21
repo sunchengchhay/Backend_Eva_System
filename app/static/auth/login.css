@@ -1,0 +1,108 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    background-image: url(../assets/custom/bg.jpeg);
+}
+.form-size{
+    background-color: rgb(8 47 73 / 0.4);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+.form-container{
+    margin: 0 5%;
+    height: 100vh;
+}
+label ,h3{
+    color: black;
+    font-weight: 500;
+}
+.warning{
+    color: #fc7b7b;
+}
+input{
+    border: 1px solid rgb(200, 198, 198)!important;
+}
+form{
+    background-color: rgb(239, 242, 243);
+    margin: 0 1rem;
+    width: 500px;
+    border: 1px solid rgb(100, 99, 99);
+    border-radius: 6px;
+    padding: 2rem;
+}
+.button{
+    background-color: #024164!important;
+    color: white !important;
+}
+.button:hover{
+    background-color: #03679d!important;
+}
+h3{
+    text-align: center;
+}
+
+
+@media screen and (max-width:640px) {
+    .form-container{
+        flex-direction: column;
+    }
+    form{
+        width: 350px;
+        margin-bottom: 8rem;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .form-container{
+        justify-content: center;
+        flex-direction: column;
+    }
+    .icon-logo{
+        margin-bottom: 2rem;
+    }
+    .logo-rupp1{
+        width: 80px;
+        height: 80px;
+    }
+    .logo-fe1{
+        width: 70px;
+        height: 70px;
+        margin: 0;
+    }
+    .logo-rupp2{
+        display: none;
+    }
+    .logo-fe2{
+        display: none;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .icon-logo{
+        flex-direction: column;
+    }
+    .logo-rupp1{
+        width: 100px;
+        height: 100px;
+    }
+    .logo-fe1{
+        width: 80px;
+        height: 80px;
+    }
+    .logo-rupp2{
+        display: block;
+        width: 400px;
+        height: 100px;
+    }
+    .logo-fe2{
+        display: block;
+        width: 300px;
+        height: 100px;
+    }
+}
+@media screen and (min-width: 1360px) {
+    .form-container{
+        gap: 15%;
+    }
+}

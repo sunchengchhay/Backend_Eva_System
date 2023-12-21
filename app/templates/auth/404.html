@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="description" content="Bootstrap Admin App" />
+    <meta
+      name="keywords"
+      content="app, responsive, jquery, bootstrap, dashboard, admin"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static',filename='assets/custom/Fe_icon.png')}}"
+    />
+    <title>404 Not Found</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/brands.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/regular.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/solid.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/fontawesome.css')}}"
+    />
+    <!-- SIMPLE LINE ICONS-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/simple-line-icons/css/simple-line-icons.css')}}"
+    />
+    <!-- ANIMATE.CSS-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/animate.css/animate.css')}}"
+    />
+    <!-- WHIRL (spinners)-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/whirl/dist/whirl.css')}}"
+    />
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- WEATHER ICONS-->
+    <link
+      rel="stylesheet"
+      href=" {{url_for('static',filename='assets/vendor/weather-icons/css/weather-icons.css')}}"
+    />
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/css/bootstrap.css')}}"
+      id="bscss"
+    />
+    <!-- =============== APP STYLES ===============-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/css/app.css')}}"
+      id="maincss"
+    />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="abs-center wd-xl">
+        <!-- START card-->
+        <div class="text-center mb-5">
+          <div class="text-lg mb-3">404</div>
+          <p class="lead m-0">We couldn't find this page.</p>
+          <p>The page you are looking for does not exists.</p>
+        </div>
+        <ul class="list-inline text-center text-sm mb-4">
+          <li class="list-inline-item">
+            <a class="text-muted" href="#">Go to Web</a>
+          </li>
+          <li class="text-muted list-inline-item">|</li>
+          <li class="list-inline-item">
+            <a class="text-muted" href="{{url_for('auth_bp.login_bp.logout')}}"
+              >Login</a
+            >
+          </li>
+          <li class="text-muted list-inline-item">|</li>
+          <li class="list-inline-item">
+            <a class="text-muted" href="{{url_for('admin.index')}}">Home</a>
+          </li>
+        </ul>
+        <div class="p-3 text-center">
+          <span>&copy;</span><span id="year"></span><span class="mr-2"></span
+          ><span>FE</span><br /><span>Faculty of Engineering</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById("year").innerHTML = new Date().getFullYear();
+    </script>
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src=" {{url_for('static',filename='assets/vendor/modernizr/modernizr.custom.js')}}"></script>
+    <!-- STORAGE API-->
+    <script src="{{url_for('static',filename='assets/vendor/js-storage/js.storage.js')}}"></script>
+    <!-- SCREENFULL-->
+    <script src="{{url_for('static',filename='assets/vendor/screenfull/dist/screenfull.js')}}"></script>
+    <!-- i18next-->
+    <script src="{{url_for('static',filename='assets/vendor/i18next/i18next.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/i18next-xhr-backend/i18nextXHRBackend.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/jquery/dist/jquery.js')}}"></script>
+    <script src=" {{url_for('static',filename='assets/vendor/popper.js/dist/umd/popper.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/bootstrap/dist/js/bootstrap.js')}}"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- SPARKLINE-->
+    <script src="{{url_for('static',filename='assets/vendor/jquery-sparkline/jquery.sparkline.js')}}"></script>
+    <!-- FLOT CHART-->
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/jquery.flot.tooltip/js/jquery.flot.tooltip.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.resize.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.pie.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.time.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.categories.js')}}"></script>
+    <script src=" {{url_for('static',filename='assets/vendor/jquery.flot.spline/jquery.flot.spline.js')}}"></script>
+    <!-- EASY PIE CHART-->
+    <script src="{{url_for('static',filename='assets/vendor/easy-pie-chart/dist/jquery.easypiechart.js')}}"></script>
+    <!-- MOMENT JS-->
+    <script src="{{url_for('static',filename='assets/vendor/moment/min/moment-with-locales.js')}}"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="{{url_for('static',filename='assets/js/app.js')}}"></script>
+  </body>
+</html>

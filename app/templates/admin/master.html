@@ -1,0 +1,603 @@
+{% import 'admin/layout.html' as layout with context -%} {% import
+'admin/static.html' as admin_static with context %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head_meta %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="description" content="FE System" />
+    <meta name="author" content="Stem 202" />
+    <meta
+      name="keywords"
+      content="app, responsive, jquery, bootstrap, dashboard, admin"
+    />
+    {% endblock %} {% block head_css %}
+    <link
+      href="{{ admin_static.url(filename='bootstrap/bootstrap4/swatch/{swatch}/bootstrap.min.css'.format(swatch=config.get('FLASK_ADMIN_SWATCH', 'default')), v='4.2.1') }}"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static',filename='assets/custom/Fe_icon.png')}}"
+    />
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/brands.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/regular.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/solid.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/@fortawesome/fontawesome-free/css/fontawesome.css')}}"
+    />
+    <!-- SIMPLE LINE ICONS-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/simple-line-icons/css/simple-line-icons.css')}}"
+    />
+    <!-- ANIMATE.CSS-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/animate.css/animate.css')}}"
+    />
+    <!-- WHIRL (spinners)-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/vendor/whirl/dist/whirl.css')}}"
+    />
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- WEATHER ICONS-->
+    <link
+      rel="stylesheet"
+      href=" {{url_for('static',filename='assets/vendor/weather-icons/css/weather-icons.css')}}"
+    />
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/css/bootstrap.css')}}"
+      id="bscss"
+    />
+    <!-- =============== APP STYLES ===============-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='assets/css/app.css')}}"
+      id="maincss"
+    />
+
+    {% if config.get('FLASK_ADMIN_SWATCH', 'default') == 'default' %}
+    <link
+      href="{{ admin_static.url(filename='bootstrap/bootstrap4/css/bootstrap.min.css', v='4.2.1') }}"
+      rel="stylesheet"
+    />
+    {% endif %}
+    <link
+      href="{{ admin_static.url(filename='admin/css/bootstrap4/admin.css', v='1.1.1') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ admin_static.url(filename='bootstrap/bootstrap4/css/font-awesome.min.css', v='4.7.0') }}"
+      rel="stylesheet"
+    />
+    {% if admin_view.extra_css %} {% for css_url in admin_view.extra_css %}
+    <link href="{{ css_url }}" rel="stylesheet" />
+    {% endfor %} {% endif %}
+    <style>
+      .hide {
+        display: none;
+      }
+    </style>
+    {% endblock %}
+
+    <title>
+      {% block title %}{% if admin_view.category %}{{ admin_view.category }} -
+      {% endif %}{{ admin_view.name }} - {{ admin_view.admin.name }}{% endblock
+      %}
+    </title>
+    {% block head %} {% endblock %} {% block head_tail %} {% endblock %}
+  </head>
+
+  <body>
+    <div class="wrapper">
+      {% block page_body %}
+      <!-- top navbar-->
+      <header class="topnavbar-wrapper">
+        <!-- START Top Navbar-->
+        <nav class="navbar topnavbar">
+          <!-- START navbar header-->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="{{ admin_view.admin.url }}">
+              <div class="brand-logo">
+                <img
+                  class="img-fluid"
+                  style="max-height: 40px; margin-right: 55px"
+                  src="{{url_for('static',filename='assets/custom/logoFE.webp')}}"
+                  alt="App Logo"
+                />
+              </div>
+              <div class="brand-logo-collapsed">
+                <img
+                  class="img-fluid"
+                  style="max-height: 40px"
+                  src="{{url_for('static',filename='assets/custom/logoFE.webp')}}"
+                  alt="App Logo"
+                />
+              </div>
+            </a>
+          </div>
+          <!-- END navbar header-->
+          <!-- START Left navbar-->
+          <ul class="navbar-nav mr-auto flex-row">
+            <li class="nav-item">
+              <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops--><a
+                class="nav-link d-none d-md-block d-lg-block d-xl-block"
+                href="#"
+                data-trigger-resize=""
+                data-toggle-state="aside-collapsed"
+                ><em class="fas fa-bars"></em></a
+              ><!-- Button to show/hide the sidebar on mobile. Visible on mobile only.--><a
+                class="nav-link sidebar-toggle d-md-none"
+                href="#"
+                data-toggle-state="aside-toggled"
+                data-no-persist="true"
+                ><em class="fas fa-bars"></em
+              ></a>
+            </li>
+          </ul>
+          <!-- END Left navbar-->
+          <!-- START Right Navbar-->
+          <ul class="navbar-nav flex-row">
+            <!-- Fullscreen (only desktops)-->
+            <li class="nav-item d-none d-md-block">
+              <a class="nav-link" href="#" data-toggle-fullscreen=""
+                ><em class="fas fa-expand"></em
+              ></a>
+            </li>
+            <!-- START User avatar toggle-->
+            <li class="nav-item d-none d-md-block">
+              <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops--><a
+                class="nav-link"
+                id="user-block-toggle"
+                href="#user-block"
+                data-toggle="collapse"
+                ><em class="icon-user"></em
+              ></a>
+            </li>
+            <!-- END User avatar toggle-->
+          </ul>
+          <!-- END Right Navbar-->
+          <!-- START Search form-->
+          <form class="navbar-form" role="search" action="#">
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Type and hit enter ..."
+              />
+              <div
+                class="fas fa-times navbar-form-close"
+                data-search-dismiss=""
+              ></div>
+            </div>
+            <button class="d-none" type="submit">Submit</button>
+          </form>
+          <!-- END Search form-->
+        </nav>
+        <!-- END Top Navbar-->
+      </header>
+      <!-- sidebar-->
+      <aside class="aside-container" style="margin-top: 25px">
+        <!-- START Sidebar (left)-->
+        <div class="aside-inner">
+          <nav class="sidebar" data-sidebar-anyclick-close="">
+            <!-- START sidebar nav-->
+            <ul class="sidebar-nav">
+              <!-- START user info-->
+              <li class="has-user-block">
+                <div class="collapse" id="user-block">
+                  <div class="item user-block">
+                    <!-- User picture-->
+                    <div class="user-block-picture">
+                      <div class="user-block-status">
+                        <img
+                          class="img-thumbnail rounded-circle"
+                          src="{{url_for('static',filename='assets/custom/avatar_icon.svg')}}"
+                          alt="Avatar"
+                          width="60"
+                          height="60"
+                        />
+                        <div class="circle bg-success circle-lg"></div>
+                      </div>
+                    </div>
+                    <!-- Name and Job-->
+                    <div class="user-block-info">
+                      <span class="user-block-name">Hello, Admin</span
+                      ><span class="user-block-role">Administration</span>
+                    </div>
+                    <a
+                      href="{{url_for('auth_bp.login_bp.logout')}}"
+                      style="margin-left: 70px"
+                    >
+                      <button class="logout-btn">Logout</button>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <!-- END user info-->
+              <!-- Iterates over all sidebar items-->
+              <li class="nav-heading">
+                <span data-localize="sidebar.heading.HEADER">Main Menu</span>
+              </li>
+              <li class=" ">
+                <a href="{{url_for('admin.index')}}" title="Dashboard">
+                  <div class="float-right badge badge-success"></div>
+                  <em class="icon-speedometer"></em
+                  ><span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
+                </a>
+              </li>
+              <li class=" ">
+                <a href="{{url_for('sysuser.index_view')}}" title="Users">
+                  <em class="icon-user"></em
+                  ><span data-localize="sidebar.nav.USERS">Users</span>
+                </a>
+              </li>
+              <li class=" ">
+                <a href="#layout" title="Settings" data-toggle="collapse"
+                  ><em class="icon-settings"></em><span>Settings</span></a
+                >
+                <ul class="sidebar-nav sidebar-subnav collapse" id="layout">
+                  <li class="sidebar-subnav-header">Settings</li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysperson.index_view')}}"
+                      title="User Profile Management"
+                      ><span>User Profile</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysnationality.index_view')}}"
+                      title="Nationality Management"
+                      ><span>Nationality</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysorganization.index_view')}}"
+                      title="Organization Management"
+                      ><span>Organization</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysposition.index_view')}}"
+                      title="Position Management"
+                      ><span>Position</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysdepartment.index_view')}}"
+                      title="Department Management"
+                      ><span>Department</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysgender.index_view')}}"
+                      title="Gender Management"
+                      ><span>Gender</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysright.index_view')}}"
+                      title="Access Right Management"
+                      ><span>Access Right</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysprofileaccessright.index_view')}}"
+                      title="User Access Right Management"
+                      ><span>User Access Right</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysprofile.index_view')}}"
+                      title="Role Management"
+                      ><span>Role</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('sysmenu.index_view')}}"
+                      title="Menu Management"
+                      ><span>Menu</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('syssubmenu.index_view')}}"
+                      title="Sub-Menu Management"
+                      ><span>Sub-Menu</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-heading">
+                <span data-localize="sidebar.heading.COMPONENTS">More</span>
+              </li>
+              <li class=" ">
+                <a href="#extras" title="Events" data-toggle="collapse"
+                  ><em class="icon-event"></em
+                  ><span data-localize="sidebar.nav.extra.EXTRA"
+                    >Events</span
+                  ></a
+                >
+                <ul class="sidebar-nav sidebar-subnav collapse" id="extras">
+                  <li class="sidebar-subnav-header">Events</li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveevent.index_view')}}"
+                      title="Event Management"
+                      ><span>Event</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('evecommittee.index_view')}}"
+                      title="Committee Management"
+                      ><span>Committee</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveprojectcommittee.index_view')}}"
+                      title="Project Committee Management"
+                      ><span>Project Committee </span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveproject.index_view')}}"
+                      title="Project Management"
+                      ><span>Projects</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveprojectshortlist.index_view')}}"
+                      title="Project Shortlist Management"
+                      ><span>Projects Shortlist</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveprojecttype.index_view')}}"
+                      title="Project Type Management"
+                      ><span>Project Type</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('evesupervisor.index_view')}}"
+                      title="Project Supervisor "
+                      ><span>Project Supervisor</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('evegeneration.index_view')}}"
+                      title="Generations"
+                      ><span>Generations</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveprojectmember.index_view')}}"
+                      title="Project Member Management"
+                      ><span>Project Member </span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class=" ">
+                <a
+                  href="#elements"
+                  title="Evaluation Form"
+                  data-toggle="collapse"
+                  ><em class="icon-chemistry"></em
+                  ><span data-localize="sidebar.nav.element.ELEMENTS"
+                    >Evaluation Form</span
+                  ></a
+                >
+                <ul class="sidebar-nav sidebar-subnav collapse" id="elements">
+                  <li class="sidebar-subnav-header">Evaluations</li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveevalcategory.index_view')}}"
+                      title="Category Management"
+                      ><span data-localize="sidebar.nav.element.BUTTON"
+                        >Category</span
+                      ></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('everubriccategory.index_view')}}"
+                      title="Category Rubric Management"
+                      ><span data-localize="sidebar.nav.element.NOTIFICATION"
+                        >Category Rubric</span
+                      ></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveevalcriteria.index_view')}}"
+                      title="Criteria Management"
+                      ><span>Criteria</span></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('eveevalcriteriarubric.index_view')}}"
+                      title="Criteria Rubic Management"
+                      ><span data-localize="sidebar.nav.element.INTERACTION"
+                        >Criteria Rubric</span
+                      ></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class=" ">
+                <a href="#maps" title="Result" data-toggle="collapse"
+                  ><em class="icon-map"></em
+                  ><span data-localize="sidebar.nav.map.MAP">Results</span></a
+                >
+                <ul class="sidebar-nav sidebar-subnav collapse" id="maps">
+                  <li class="sidebar-subnav-header">Results</li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('evecommitteescore.index_view')}}"
+                      title="Committee Score Management"
+                      ><span data-localize="sidebar.nav.map.GOOGLE"
+                        >Committee Score</span
+                      ></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a href="{{url_for('everesult.index_view')}}" title="Result"
+                      ><span data-localize="sidebar.nav.map.VECTOR"
+                        >Results</span
+                      ></a
+                    >
+                  </li>
+                  <li class=" ">
+                    <a
+                      href="{{url_for('excel.get')}}"
+                      title="Department Management"
+                      ><span>Export Result</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <!-- END sidebar nav-->
+          </nav>
+        </div>
+        <!-- END Sidebar (left)-->
+      </aside>
+      <!-- offsidebar-->
+      <!-- Main section-->
+
+      <section class="section-container">
+        <!-- Page content-->
+        <div class="content-wrapper">
+          <div class="content-heading">
+            <div>{{ admin_view.name }}</div>
+            <div>
+              {% block messages %} {{ layout.messages() }} {% endblock %} {#
+              store the jinja2 context for form_rules rendering logic #} {% set
+              render_ctx = h.resolve_ctx() %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12">{% block body %}{% endblock %}</div>
+          </div>
+        </div>
+      </section>
+      <!-- Page footer-->
+      <footer class="footer-container">
+        <span>&copy; <span id="year"></span> - Faculty of Engineering</span>
+      </footer>
+      {% endblock %}
+    </div>
+    {% block tail_js %}
+    <script
+      src="{{ admin_static.url(filename='bootstrap/bootstrap4/js/popper.min.js') }}"
+      type="text/javascript"
+    ></script>
+
+    <script
+      src="{{ admin_static.url(filename='bootstrap/bootstrap4/js/bootstrap.min.js', v='4.2.1') }}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{{ admin_static.url(filename='vendor/bootstrap4/util.js', v='4.3.1') }}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{{ admin_static.url(filename='vendor/bootstrap4/dropdown.js', v='4.3.1') }}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='4.2.1') }}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{{ admin_static.url(filename='vendor/multi-level-dropdowns-bootstrap/bootstrap4-dropdown-ml-hack.js') }}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{{ admin_static.url(filename='admin/js/helpers.js', v='1.0.0') }}"
+      type="text/javascript"
+    ></script>
+    {% if admin_view.extra_js %} {% for js_url in admin_view.extra_js %}
+    <script src="{{ js_url }}" type="text/javascript"></script>
+    {% endfor %} {% endif %} {% endblock %}
+    <script>
+      document.getElementById("year").innerHTML = new Date().getFullYear();
+    </script>
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src=" {{url_for('static',filename='assets/vendor/modernizr/modernizr.custom.js')}}"></script>
+    <!-- STORAGE API-->
+    <script src="{{url_for('static',filename='assets/vendor/js-storage/js.storage.js')}}"></script>
+    <!-- SCREENFULL-->
+    <script src="{{url_for('static',filename='assets/vendor/screenfull/dist/screenfull.js')}}"></script>
+    <!-- i18next-->
+    <script src="{{url_for('static',filename='assets/vendor/i18next/i18next.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/i18next-xhr-backend/i18nextXHRBackend.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/jquery/dist/jquery.js')}}"></script>
+    <script src=" {{url_for('static',filename='assets/vendor/popper.js/dist/umd/popper.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/bootstrap/dist/js/bootstrap.js')}}"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- SPARKLINE-->
+    <script src="{{url_for('static',filename='assets/vendor/jquery-sparkline/jquery.sparkline.js')}}"></script>
+    <!-- FLOT CHART-->
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/jquery.flot.tooltip/js/jquery.flot.tooltip.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.resize.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.pie.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.time.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/vendor/flot/jquery.flot.categories.js')}}"></script>
+    <script src=" {{url_for('static',filename='assets/vendor/jquery.flot.spline/jquery.flot.spline.js')}}"></script>
+    <!-- EASY PIE CHART-->
+    <script src="{{url_for('static',filename='assets/vendor/easy-pie-chart/dist/jquery.easypiechart.js')}}"></script>
+    <!-- MOMENT JS-->
+    <script src="{{url_for('static',filename='assets/vendor/moment/min/moment-with-locales.js')}}"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="{{url_for('static',filename='assets/js/app.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/ga.js')}}"></script>
+  </body>
+</html>
